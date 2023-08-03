@@ -1,0 +1,3 @@
+To run the application in development mode, generate a `dev.env` file based on the [sample file](.config/sample.env) and place it in the `.config` directory then run `docker-compose -f docker-compose.dev.yaml up -d`.
+
+To run the application in production mode,  generate a `prod.env` file based on the [sample file](.config/sample.env) and place it in the `.config` directory then run `docker-compose up -d`.
