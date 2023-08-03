@@ -1,0 +1,36 @@
+<html class='dark'>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@materializecss/materialize@2.0.2-alpha/dist/css/materialize.min.css">
+    <!-- Compiled and minified JavaScript -->
+    <script
+      src='https://www.gstatic.com/firebasejs/8.3.1/firebase-app.js'
+    ></script>
+    <script
+      src='https://www.gstatic.com/firebasejs/8.3.1/firebase-auth.js'
+    ></script>
+    <script src='/scripts/main.js'></script>
+  </head>
+  <body>
+    <header>
+      {{{userDropdown}}}
+      <nav>
+      <div class="nav-wrapper container">
+        <a href="#" class="brand-logo">Vets of Norrath</a>
+        <ul id="nav-mobile" class="right hide-on-med-and-down">
+          <li><a href="/">DKP and Attendance</a></li>
+          <li><a href="/keysAndSpells">Keying and Spells</a></li>
+          <li><a class="dropdown-trigger" href="#!" data-target="userDropdown"><i class="material-icons left">person</i><i class="material-icons right">arrow_drop_down</i></a></li>
+        </ul>
+      </div>
+    </nav>
+    </header>
+    <section>
+      <div class="container">
+        {{{body}}}
+      </div>
+    </section>
+    <script src="https://cdn.jsdelivr.net/npm/@materializecss/materialize@2.0.2-alpha/dist/js/materialize.min.js"></script>
+  </body>
+</html>

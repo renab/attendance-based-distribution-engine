@@ -1,0 +1,46 @@
+{
+  "name": "base-cra-ts",
+  "version": "5.0.0",
+  "private": true,
+  "dependencies": {
+    "@emotion/react": "^11.11.1",
+    "@emotion/styled": "^11.11.0",
+    "@fontsource/roboto": "^5.0.5",
+    "@mui/icons-material": "^5.14.1",
+    "@mui/material": "^5.14.2",
+    "@mui/x-data-grid": "^6.10.2",
+    "@types/react": "latest",
+    "@types/react-dom": "latest",
+    "axios": "^1.4.0",
+    "firebase-admin": "^11.10.1",
+    "multi-column-sort": "^2.2.1",
+    "react": "latest",
+    "react-dom": "latest",
+    "react-firebase-hooks": "^5.1.1",
+    "react-router-dom": "^6.14.2",
+    "react-scripts": "latest",
+    "react-scroll-into-view": "^2.0.2",
+    "typescript": "latest"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "@babel/plugin-proposal-private-property-in-object": "latest"
+  }
+}
