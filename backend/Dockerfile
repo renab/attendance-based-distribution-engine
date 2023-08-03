@@ -77,6 +77,8 @@ USER node
 
 FROM node:18-alpine As production
 
+WORKDIR /usr/src/app
+
 EXPOSE 3000
 
 # Copy the bundled code from the build stage to the production image
