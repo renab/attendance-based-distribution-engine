@@ -13,8 +13,7 @@ import { UserModule } from '../authentication/auth.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
-      isGlobal: true,
-      envFilePath: findConfig(`${process.env.NODE_ENV.trim()}.env`)
+      isGlobal: true
     }),
     FireormModule.forRootAsync({
       inject: [ConfigService],
