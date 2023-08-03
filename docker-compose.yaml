@@ -17,8 +17,6 @@ services:
     container_name: api
     environment:
       - NODE_ENV=prod
-    volumes:
-      - './.config:/usr/src/app/.config'
     build:
       context: ./backend
       dockerfile: Dockerfile

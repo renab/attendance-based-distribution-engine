@@ -3,3 +3,7 @@ dist
 .dockerignore
 Dockerfile
 Dockerfile.prod
+.env*
+.flaskenv*
+!.env.project
+!.env.vault

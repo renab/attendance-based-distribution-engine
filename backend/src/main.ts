@@ -4,7 +4,7 @@ import { Logger } from '@nestjs/common';
 import { AppModule } from './modules/app/app.module';
 import * as dotenv from 'dotenv';
 
-dotenv.config({ path: `./config/${process.env.NODE_ENV.trim()}.env`});
+dotenv.config();
 
 async function bootstrap() {
   const logger = new Logger('App');
