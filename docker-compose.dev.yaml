@@ -23,6 +23,8 @@ services:
       target: development
     environment:
       - NODE_ENV=dev
+    volumes:
+      - './config:/usr/src/app/.config'
   nginx:
     image: nginx:latest
     volumes:

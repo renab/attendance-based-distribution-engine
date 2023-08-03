@@ -13,7 +13,6 @@ RUN mkdir -p .config && chown node:node .config
 # A wildcard is used to ensure copying both package.json AND package-lock.json (when available).
 # Copying this first prevents re-running npm install on every code change.
 COPY --chown=node:node package*.json ./
-COPY --chown=node:node *.env .config/
 
 # Set NODE_ENV environment variable
 ENV NODE_ENV dev
@@ -42,7 +41,6 @@ EXPOSE 3000
 # Copy the bundled code from the build stage to the production image
 COPY --chown=node:node --from=development-build /usr/src/app/node_modules ./node_modules
 COPY --chown=node:node --from=development-build /usr/src/app/dist ./dist
-COPY --chown=node:node --from=development-build /usr/src/app/.config ./config
 
 # Start the server using the production build
 CMD [ "node", "dist/main.js" ]
@@ -84,7 +82,6 @@ EXPOSE 3000
 # Copy the bundled code from the build stage to the production image
 COPY --chown=node:node --from=build /usr/src/app/node_modules ./node_modules
 COPY --chown=node:node --from=build /usr/src/app/dist ./dist
-COPY --chown=node:node --from=development-build /usr/src/app/.config ./config
 
 # Start the server using the production build
 CMD [ "node", "dist/main.js" ]
