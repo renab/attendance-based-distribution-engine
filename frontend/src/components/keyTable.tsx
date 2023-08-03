@@ -211,8 +211,8 @@ export function KeyTable(props: KeyTableProps) {
     const parseColumns = () => {
         const ret: Array<GridColDef> = [];
         ret.push({ field: 'Name', headerName: 'Character Name', sortable: false, width: 165 });
-        ret.push({ field: `main`, headerName: `Main`, sortable: false, editable: (token as IdTokenResult).claims.Admin === true, width: 75, renderCell: renderCheckboxCell, renderEditCell: renderCheckboxInputCell });
-        ret.push({ field: `box`, headerName: `Box`, sortable: false, editable: (token as IdTokenResult).claims.Admin === true, width: 450, renderCell: renderCheckboxCell, renderEditCell: renderCheckboxInputCell });
+        ret.push({ field: `main`, headerName: `Main`, sortable: false, editable: (token as IdTokenResult)?.claims.Admin === true, width: 75, renderCell: renderCheckboxCell, renderEditCell: renderCheckboxInputCell });
+        ret.push({ field: `box`, headerName: `Box`, sortable: false, editable: (token as IdTokenResult)?.claims.Admin === true, width: 450, renderCell: renderCheckboxCell, renderEditCell: renderCheckboxInputCell });
         ret.push({ field: 'Thirty', headerName: '30d', type: 'number', width: 75, description: '30d Attendance not sorted by All Time' });
         ret.push({ field: 'ThirtyW', headerName: '30d', type: 'number', width: 75, description: '30d Attendance sorted by All Time to break ties', valueFormatter: ({id, api}) => { return api.getRow(id as GridRowId).Thirty; } });
         ret.push({ field: 'Sixty', headerName: '60d', type: 'number', width: 75, description: '60d Attendance not sorted by All Time' });

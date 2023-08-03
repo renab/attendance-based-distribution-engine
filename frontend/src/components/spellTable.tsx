@@ -5,7 +5,7 @@ import { StripedDataGrid } from './StripedDataGrid';
 import { AuthContext } from '../lib/firebase';
 import { IdTokenResult } from 'firebase/auth';
 import { unstable_useEnhancedEffect as useEnhancedEffect } from '@mui/utils';
-import { Key, SpellRune } from '../model/expansions';
+import { SpellRune } from '../model/expansions';
 import { Character } from '../model/characters';
 import multiColumnSort from 'multi-column-sort';
 
@@ -213,7 +213,7 @@ export function SpellTable(props: SpellTableProps) {
         const ret: Array<GridColDef> = [];
         ret.push({ field: 'Name', headerName: 'Character Name', sortable: false, width: 165 });
         ret.push({ field: 'Class', headerName: 'Character Class', sortable: false, width: 165 });
-        ret.push({ field: `count`, headerName: `Runes Received`, align: 'left', headerAlign: 'left', sortable: false, editable: (token as IdTokenResult).claims.Admin === true, width: 150, type: 'number' });
+        ret.push({ field: `count`, headerName: `Runes Received`, align: 'left', headerAlign: 'left', sortable: false, editable: (token as IdTokenResult)?.claims.Admin === true, width: 150, type: 'number' });
         ret.push({ field: `needed`, headerName: `Runes Needed`, align: 'left', headerAlign: 'left', sortable: false, editable: false, width: 205, type: 'number' });
         ret.push({ field: 'Thirty', headerName: '30d', type: 'number', width: 75, description: '30d Attendance not sorted by All Time' });
         ret.push({ field: 'ThirtyW', headerName: '30d', type: 'number', width: 75, description: '30d Attendance sorted by All Time to break ties', valueFormatter: ({id, api}) => { return api.getRow(id as GridRowId).Thirty; } });

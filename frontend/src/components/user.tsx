@@ -1,19 +1,15 @@
 import * as React from 'react';
+import { useContext } from 'react';
 import { getAuth, signOut } from 'firebase/auth';
-import { useIdToken } from 'react-firebase-hooks/auth';
 import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import Avatar from '@mui/material/Avatar';
 import Tooltip from '@mui/material/Tooltip';
 import { Link, Menu, MenuItem } from '@mui/material';
-import { app, useFirebaseTokenResultHook } from '../lib/firebase';
+import { AuthContext, app } from '../lib/firebase';
 
 const auth = getAuth(app);
-
-const logout = () => {
-  signOut(auth);
-};
 
 export function User() {
     const settings = ['Admin', 'Logout'];
@@ -24,15 +20,12 @@ export function User() {
     const handleCloseUserMenu = () => {
         setAnchorElUser(null);
     };
-    const [user, error] = useIdToken(auth);
-    const token = useFirebaseTokenResultHook();
-    if (error) {
-        return (
-          <div>
-            <p>Error: {error}</p>
-          </div>
-        );
-    }
+    const { user, token, setUser, setToken } = useContext(AuthContext);
+    const logout = () => {
+        setUser(null);
+        setToken(null);
+        signOut(auth);
+    };
     if (user) {
         return (
             <Box sx={{ flexGrow: 0 }}>

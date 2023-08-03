@@ -13,6 +13,9 @@
                 "run",
                 "start:dev"
             ],
+            "env": {
+                "DOTENV_KEY": "fix this value"
+            },
             "console": "integratedTerminal",
             "restart": true,
             "autoAttachChildProcesses": true,

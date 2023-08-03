@@ -104,7 +104,7 @@ function SpellBreadcrumbs(props: SpellBreadcrumbsProps) {
 }
 
 export function Expansions() {
-    const { user, token, setUser, setToken } = React.useContext(AuthContext);
+    const { user, token } = React.useContext(AuthContext);
     const [expansions, setExpansions] = fetchExpansionsHook();
     const characters = fetchCharactersHook();
     const [expansion, setExpansion] = React.useState<Expansion | null>(null);
@@ -243,8 +243,8 @@ export function Expansions() {
                                 <TabPanel value={view} index={0}>
                                     { characters &&
                                     <Box>
-                                        {(user && token?.claims.Admin === true) &&
-                                        <Typography sx={{ mt: -1, pb: 2 }}>Double Click a Cell to Edit. Hit enter to submit.</Typography>
+                                        { token?.claims.Admin === true &&
+                                        <Typography>Double click the cell you wish to edit. Hit enter to submit a change.</Typography>
                                         }
                                         <Stack spacing={2}>
                                             {!expansion.keys || expansion.keys.length === 0 &&
@@ -264,8 +264,8 @@ export function Expansions() {
                                 <TabPanel value={view} index={1}>
                                     { characters &&
                                     <Box>
-                                        {(user && token?.claims.Admin === true) &&
-                                        <Typography sx={{ mt: -1, pb: 2 }}>Double Click a Cell to Edit. Hit enter to submit.</Typography>
+                                        { token?.claims.Admin === true &&
+                                        <Typography>Double click the cell you wish to edit. Hit enter to submit a change.</Typography>
                                         }
                                         <Stack spacing={2}>
                                             {!expansion.spells || expansion.spells.length === 0 &&

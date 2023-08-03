@@ -24,6 +24,8 @@ services:
       - './.config:/usr/src/app/.config'
   nginx:
     image: nginx:latest
+    volumes:
+      - './nginx.dev:/etc/nginx'
     ports:
       - 80:80
     extra_hosts:
