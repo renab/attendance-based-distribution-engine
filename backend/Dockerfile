@@ -13,6 +13,7 @@ RUN mkdir -p .config && chown node:node .config
 # A wildcard is used to ensure copying both package.json AND package-lock.json (when available).
 # Copying this first prevents re-running npm install on every code change.
 COPY --chown=node:node package*.json ./
+COPY --chown=node:node .env.vault ./
 
 # Set NODE_ENV environment variable
 ENV NODE_ENV dev
@@ -41,7 +42,7 @@ EXPOSE 3000
 # Copy the bundled code from the build stage to the production image
 COPY --chown=node:node --from=development-build /usr/src/app/node_modules ./node_modules
 COPY --chown=node:node --from=development-build /usr/src/app/dist ./dist
-COPY --chown=node:node *.env .
+COPY --chown=node:node --from=development-build /usr/src/app/.env.vault ./
 
 # Start the server using the production build
 CMD [ "node", "dist/main.js" ]
@@ -58,6 +59,7 @@ COPY --chown=node:node package*.json ./
 
 # In order to run `npm run build` we need access to the Nest CLI which is a dev dependency. In the previous development stage we ran `npm ci` which installed all dependencies, so we can copy over the node_modules directory from the development image
 COPY --chown=node:node --from=development-build /usr/src/app/node_modules ./node_modules
+COPY --chown=node:node --from=development-build /usr/src/app/.env.vault ./
 
 COPY --chown=node:node . .
 
@@ -85,6 +87,7 @@ EXPOSE 3000
 # Copy the bundled code from the build stage to the production image
 COPY --chown=node:node --from=build /usr/src/app/node_modules ./node_modules
 COPY --chown=node:node --from=build /usr/src/app/dist ./dist
+COPY --chown=node:node --from=build /usr/src/app/.env.vault ./
 COPY --chown=node:node *.env .
 
 # Start the server using the production build
