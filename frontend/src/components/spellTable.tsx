@@ -98,6 +98,7 @@ export function SpellTable(props: SpellTableProps) {
                 if (character.name === newRow.Name)
                 {
                     character.count = newRow.count;
+                    found = true;
                 }
             }
             if (!found) {
