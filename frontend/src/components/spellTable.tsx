@@ -97,7 +97,7 @@ export function SpellTable(props: SpellTableProps) {
             for (const character of props.expansionSpellRune.charactersWithRune) {
                 if (character.name === newRow.Name)
                 {
-                    character.count = newRow.received;
+                    character.count = newRow.count;
                 }
             }
             if (!found) {
