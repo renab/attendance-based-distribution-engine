@@ -18,13 +18,20 @@ async function bootstrap() {
     try {
       const encoding = (req.headers['content-encoding'] || '').toString().toLowerCase();
       if (encoding !== 'gzip') return next();
+      // If the request stream is already not readable, skip decompression
+      if ((req as any).readable === false || (req as any).readableEnded) return next();
+
       const chunks: Buffer[] = [];
-      req.on('data', (chunk: Buffer) => chunks.push(chunk));
+      // Ensure chunks are Buffers (some chunk types may be strings)
+      req.on('data', (chunk: Buffer | string) => {
+        chunks.push(typeof chunk === 'string' ? Buffer.from(chunk) : chunk);
+      });
+
       req.on('end', () => {
         try {
+          if (chunks.length === 0) return next();
           const buffer = Buffer.concat(chunks);
           const decompressed = zlib.gunzipSync(buffer);
-          // If JSON, parse and attach to req.body so controllers receive parsed body
           const contentType = (req.headers['content-type'] || '').toString().toLowerCase();
           if (contentType.includes('application/json')) {
             try {
@@ -35,15 +42,14 @@ async function bootstrap() {
           } else {
             (req as any).body = decompressed;
           }
-          // Remove content-encoding so downstream logic does not attempt to re-decode
           delete req.headers['content-encoding'];
-          // Update content-length header to the decompressed size
           req.headers['content-length'] = String((req as any).body ? Buffer.byteLength(typeof (req as any).body === 'string' ? (req as any).body : JSON.stringify((req as any).body)) : 0);
           return next();
         } catch (err) {
           return next(err);
         }
       });
+
       req.on('error', (err) => next(err));
     } catch (err) {
       return next(err);
