@@ -80,14 +80,15 @@ export const updateExpansions = (user: User, expansions: Array<Expansion>): Prom
         if (user) {
             user.getIdToken(false).then((token) => {
                 const gzipPayload = pako.gzip(JSON.stringify(expansions));
+                const blob = new Blob([gzipPayload]);
                 const config = {
                     headers: {
                         'Authorization': `Bearer ${token}`,
-                        'Content-Type': 'application/json',
+                        'Content-Type': 'application/octet-stream',
                         'Content-Encoding': 'gzip'
                     }
                 };
-                axios.put(`${baseUrl}/1`, gzipPayload, config).then((response) => {
+                axios.put(`${baseUrl}/1`, blob, config).then((response) => {
                     resolve(response.data);
                 }).catch((err) => {
                     reject(err);

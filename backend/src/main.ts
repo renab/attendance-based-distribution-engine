@@ -22,32 +22,47 @@ async function bootstrap() {
       if ((req as any).readable === false || (req as any).readableEnded) return next();
 
       const chunks: Buffer[] = [];
-      // Ensure chunks are Buffers (some chunk types may be strings)
       req.on('data', (chunk: Buffer | string) => {
         chunks.push(typeof chunk === 'string' ? Buffer.from(chunk) : chunk);
       });
 
       req.on('end', () => {
-        try {
-          if (chunks.length === 0) return next();
-          const buffer = Buffer.concat(chunks);
-          const decompressed = zlib.gunzipSync(buffer);
-          const contentType = (req.headers['content-type'] || '').toString().toLowerCase();
-          if (contentType.includes('application/json')) {
-            try {
-              (req as any).body = JSON.parse(decompressed.toString('utf8'));
-            } catch (e) {
-              return next(e);
-            }
-          } else {
-            (req as any).body = decompressed;
+        if (chunks.length === 0) return next();
+        const buffer = Buffer.concat(chunks);
+
+        // Use async gunzip to avoid blocking the event loop
+        zlib.gunzip(buffer, (err, decompressed) => {
+          if (err) {
+            return next(new Error(`Gzip decompression failed: ${err.message}`));
           }
-          delete req.headers['content-encoding'];
-          req.headers['content-length'] = String((req as any).body ? Buffer.byteLength(typeof (req as any).body === 'string' ? (req as any).body : JSON.stringify((req as any).body)) : 0);
-          return next();
-        } catch (err) {
-          return next(err);
-        }
+          try {
+            // Parse as JSON regardless of content-type, because the client
+            // sends gzipped JSON with content-type: application/octet-stream
+            // to prevent axios from re-serializing the binary payload.
+            const text = decompressed.toString('utf8');
+            try {
+              (req as any).body = JSON.parse(text);
+            } catch {
+              // Not valid JSON — keep as raw buffer
+              (req as any).body = decompressed;
+            }
+
+            // Tell body-parser / express.json() the body is already parsed
+            (req as any)._body = true;
+            // Remove content-encoding so downstream logic does not re-decode
+            delete req.headers['content-encoding'];
+            // Set content-type to JSON so NestJS pipes/interceptors work correctly
+            req.headers['content-type'] = 'application/json';
+            req.headers['content-length'] = String(
+              typeof (req as any).body === 'object'
+                ? Buffer.byteLength(JSON.stringify((req as any).body))
+                : Buffer.byteLength(decompressed)
+            );
+            return next();
+          } catch (parseErr) {
+            return next(parseErr);
+          }
+        });
       });
 
       req.on('error', (err) => next(err));
