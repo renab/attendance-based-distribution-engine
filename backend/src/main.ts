@@ -52,8 +52,8 @@ async function bootstrap() {
 
   app.use(gzipDecompressMiddleware);
   // Re-enable JSON/urlencoded body parsing for non-gzipped requests (and to ensure req.body exists)
-  app.use(express.json());
-  app.use(express.urlencoded({ extended: true }));
+  app.use(express.json({limit: '10mb'}));
+  app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
   app.enableCors();
   app.setViewEngine('hbs');
