@@ -22,7 +22,7 @@ import { UserModule } from '../authentication/auth.module';
           type: process.env.FIRFIREBASE_ADMIN_TYPE,
           project_id: config.get('FIRESTORE_PROJECT_ID'),
           private_key_id: config.get('FIREBASE_PRIVATE_KEY_ID'),
-          private_key: JSON.parse(config.get('FIREBASE_PRIVATE_KEY')),
+          private_key: config.get('FIREBASE_PRIVATE_KEY'),
           client_email: config.get('FIREBASE_CLIENT_EMAIL'),
           client_id: config.get('FIREBASE_CLIENT_ID'),
           auth_uri: config.get('FIREBASE_AUTH_URI'),
