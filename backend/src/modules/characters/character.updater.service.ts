@@ -39,7 +39,7 @@ export class CharacterUpdaterService {
 
       const serviceAccountAuth = new JWT({
         email:  CharacterUpdaterService.config.get('GOOGLE_API_EMAIL'),
-        key:    CharacterUpdaterService.config.get('GOOGLE_API_KEY').replace(/\\n/g, '\n'),
+        key:    CharacterUpdaterService.config.get('GOOGLE_API_KEY'),
         scopes: ['https://www.googleapis.com/auth/spreadsheets'],
       });
       this.logger.log("Connecting to Google Sheets")
