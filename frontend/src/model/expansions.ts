@@ -1,5 +1,6 @@
 import {useState, useEffect} from 'react';
 import axios from 'axios';
+import pako from 'pako';
 import { User } from 'firebase/auth';
 
 export type CharacterClass = 'Bard' | 'Beastlord' | 'Berserker' | 'Cleric' | 'Druid' | 'Enchanter' | 'Magician' | 'Monk' | 'Necromancer' | 'Paladin' | 'Ranger' | 'Rogue' | 'Shadow Knight' | 'Shaman' | 'Warrior' | 'Wizard';
@@ -78,12 +79,15 @@ export const updateExpansions = (user: User, expansions: Array<Expansion>): Prom
     return new Promise<Array<Expansion> | null>((resolve, reject) => {
         if (user) {
             user.getIdToken(false).then((token) => {
+                const gzipPayload = pako.gzip(JSON.stringify(expansions));
                 const config = {
                     headers: {
-                        'Authorization': `Bearer ${token}`
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json',
+                        'Content-Encoding': 'gzip'
                     }
                 };
-                axios.put(`${baseUrl}/1`, expansions, config).then((response) => {
+                axios.put(`${baseUrl}/1`, gzipPayload, config).then((response) => {
                     resolve(response.data);
                 }).catch((err) => {
                     reject(err);
